@@ -25,9 +25,17 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
+#環境変数からDB接続用情報を取得
+db_host = os.environ['DB_HOST']
+db_port = os.environ['DB_PORT']
+db_name = os.environ['DB_NAME']
+db_user = os.environ['DB_USER']
+db_pass = os.environ['DB_PASS']
+
 #DB Connection
 def get_connection():
-    dsn = "host=ec2-3-230-106-126.compute-1.amazonaws.com port=5432 dbname=dcvvji7ktsg5l4 user=ygqfqzxumfgcww password=d02ebf053eb3d0986e3411df3d3bb5fc22e310d5d235829ae297f70580a86409"
+    #dsn = "host=ec2-3-230-106-126.compute-1.amazonaws.com port=5432 dbname=dcvvji7ktsg5l4 user=ygqfqzxumfgcww password=d02ebf053eb3d0986e3411df3d3bb5fc22e310d5d235829ae297f70580a86409"
+    dsn = "host=" + db_host + " " + "port=" + db_port + " " + "dbname=" + db_name + " " + "user=" + db_user + " " + "password=" + db_pass 
     return psycopg2.connect(dsn)
 
 #DB Resopnse
