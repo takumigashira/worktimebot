@@ -40,7 +40,7 @@ def get_response_message(msg_form):
                     cur.execute(sqlStr)
                     (mes,) = cur.fetchone()
                     return mes
-                except
+                except:
                     mes = "exception"
                     return mes
     #日付以外はそのまま返す
