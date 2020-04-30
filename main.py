@@ -11,6 +11,7 @@ from linebot.models import (
     FollowEvent, MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, TemplateSendMessage, ButtonsTemplate, PostbackTemplateAction, MessageTemplateAction, URITemplateAction
 )
 import os
+import psycopg2
 
 # 軽量なウェブアプリケーションフレームワーク:Flask
 app = Flask(__name__)
@@ -23,6 +24,27 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
+#DB Connection
+def get_connection():
+    dsn = "host=ec2-3-230-106-126.compute-1.amazonaws.com port=5432 dbname=dcvvji7ktsg5l4 user=ygqfqzxumfgcww password=d02ebf053eb3d0986e3411df3d3bb5fc22e310d5d235829ae297f70580a86409"
+    return psycopg2.connect(dsn)
+
+#DB Resopnse
+def get_response_message(msg_form):
+    if msg_form=="日付":
+        with get_connection() as conn:
+            with conn.cursor(name="cs") as cur:
+                try:
+                    sqlStr = "SELECT TO_CHAR(CURRENT_DATE, 'yyyy/mm/dd');"
+                    cur.execute(sqlStr)
+                    (mes,) = cur.fetchone()
+                    return mes
+                except
+                    mes = "exception"
+                    return mes
+    #日付以外はそのまま返す
+    return mes_form
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -44,11 +66,9 @@ def callback():
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.reply_token == "00000000000000000000000000000000":
-        return
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text='「' + event.message.text + '」って何？')
+        TextSendMessage(text=get_response_message(event.message.text)))
      )
 
 if __name__ == "__main__":
