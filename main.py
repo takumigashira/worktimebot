@@ -31,8 +31,8 @@ def get_connection():
     return psycopg2.connect(dsn)
 
 #DB Resopnse
-def get_response_message(msg_form):
-    if msg_form=="日付":
+def get_response_message(mes_form):
+    if mes_form=="日付":
         with get_connection() as conn:
             with conn.cursor(name="cs") as cur:
                 try:
@@ -69,7 +69,6 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=get_response_message(event.message.text)))
-     )
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))
