@@ -106,7 +106,7 @@ def handle_message(event):
         def handle_message(event):
             time_text = event.message.text
             resDB = create_table(time_text)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=resDB+"ですね。"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(resDB)+"ですね。"))
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
