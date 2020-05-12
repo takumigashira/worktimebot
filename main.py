@@ -116,7 +116,7 @@ def handle_message(event):
         dst_user_id = profile.user_id
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
         #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね。何時ですか？"))
-        #@handler.add(MessageEvent, message=TextMessage)
+        @handler.add(MessageEvent, message=TextMessage)
         def handle_message(event):
             time_text = event.message.text
             resDB = create_table(time_text)
