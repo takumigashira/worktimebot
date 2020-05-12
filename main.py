@@ -89,7 +89,7 @@ def handle_message(event):
         @handler.add(MessageEvent, message=TextMessage)
         def handle_message(event):
             time_text = event.message.text
-            line_bot_api.reply_message(event.reply_token, time_text+"ですね。")
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=time_text+"ですね。"))
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
