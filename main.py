@@ -11,6 +11,7 @@ from linebot.models import (
 )
 import os
 import psycopg2
+import datetime
 
 # Flask
 app = Flask(__name__)
@@ -52,14 +53,29 @@ def get_response_message(mes_form):
     #日付以外はそのまま返す
     return mes_form
 
-#登録処理モック
-def addRecord(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(event.message.text))
+#DBテーブル作成
+def create_table(res):
+    with get_DBconnection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('CREATE TABLE IF NOT EXISTS test (id serial PRIMARY KEY, data varchar);')
+            timeStr = res
+            cur.execute('INSERT INTO test (data) VALUES (%s)', [timeStr])
+            sqlRes = "SELECT * FROM test;"
+            cur.execute(sqlRes)
+            (res, ) = cur.fetchone()
+            return res
 
-#更新処理モック
+#DB登録処理モック
+# def db_add_record():
+#     with get_DBconnection() as conn:
+#         with conn.cursor() as cur:
+#             cur.execute('')
 
 
-#削除処理モック
+#DB更新処理モック
+
+
+#DB削除処理モック
 
 
 @app.route("/callback", methods=['POST'])
@@ -89,7 +105,8 @@ def handle_message(event):
         @handler.add(MessageEvent, message=TextMessage)
         def handle_message(event):
             time_text = event.message.text
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=time_text+"ですね。"))
+            resDB = create_table(time_text)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=resDB+"ですね。"))
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
