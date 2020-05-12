@@ -117,10 +117,10 @@ def handle_message(event):
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
         #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね。何時ですか？"))
         #@handler.add(MessageEvent, message=TextMessage)
-        #def handle_message(event):
-        time_text = event.message.text
-        resDB = create_table(time_text)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(resDB)+"ですね。"))
+        def handle_message(event):
+            time_text = event.message.text
+            resDB = create_table(time_text)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(resDB)+"ですね。"))
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
