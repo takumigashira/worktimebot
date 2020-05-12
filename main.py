@@ -74,21 +74,20 @@ def callback():
 def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
     profile = line_bot_api.get_profile(event.source.user_id)
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
-
-#if mes_form=="〇"で登録、更新、削除に分岐
-
-#「登録」と投稿があった時
-# 出社時間を聞く
-
-
-#
-
-
-#
+    TextSendMessage(text=profile.display_name+"さん")
+    if event.message == "登録":
+        TextSendMessage(text="登録ですね")
+    elif event.message == "更新":
+        TextSendMessage(text="更新ですね")
+    elif event.message == "削除":
+        TextSendMessage(text="削除ですね")
+    else:
+        TextSendMessage(text="登録、更新、削除のどれかにしてください")
 
 
-#
+    #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
+    # #登録、更新、削除に分岐
+
 #    line_bot_api.reply_message(
 #        event.reply_token,
 #        TextSendMessage(text=get_response_message(event.message.text)))
