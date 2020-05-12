@@ -1,4 +1,3 @@
-# インポートするライブラリ
 from flask import Flask, request, abort
 
 from linebot import (
@@ -8,12 +7,12 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    FollowEvent, MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, TemplateSendMessage, ButtonsTemplate, PostbackTemplateAction, MessageTemplateAction, URITemplateAction
+    MessageAction, FollowEvent, MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, TemplateSendMessage, ButtonsTemplate, PostbackTemplateAction, MessageTemplateAction, URITemplateAction
 )
 import os
 import psycopg2
 
-# 軽量なウェブアプリケーションフレームワーク:Flask
+# Flask
 app = Flask(__name__)
 
 
@@ -33,15 +32,14 @@ db_user = os.environ['DB_USER']
 db_pass = os.environ['DB_PASS']
 
 #DB Connection
-def get_connection():
-    #dsn = "host=ec2-3-230-106-126.compute-1.amazonaws.com port=5432 dbname=dcvvji7ktsg5l4 user=ygqfqzxumfgcww password=d02ebf053eb3d0986e3411df3d3bb5fc22e310d5d235829ae297f70580a86409"
+def get_DBconnection():
     dsn = "host=" + db_host + " " + "port=" + db_port + " " + "dbname=" + db_name + " " + "user=" + db_user + " " + "password=" + db_pass 
     return psycopg2.connect(dsn)
 
 #DB Resopnse
 def get_response_message(mes_form):
     if mes_form=="日付":
-        with get_connection() as conn:
+        with get_DBconnection() as conn:
             with conn.cursor(name="cs") as cur:
                 try:
                     sqlStr = "SELECT TO_CHAR(CURRENT_DATE, 'yyyy/mm/dd');"
@@ -77,6 +75,22 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=get_response_message(event.message.text)))
+
+    #profileを取得
+    profile = line_bot_api.get_profile(event.source.user_id)
+
+    if status_msg != "None":
+        status_msg = "ステータスメッセージなし"
+    
+    messages = TemplateSendMessage(alt_text="Buttons template",
+                                       template=ButtonsTemplate(
+                                       thumbnail_image_url=profile.picture_url,
+                                       title=profile.display_name,
+                                       text=f"User Id: {profile.user_id[:5]}...\n"
+                                            f"Status message: {status_msg}",
+                                       actions=[MessageAction(label="成功", text="次は？")]))
+
+    line_bot_api.reply_message(event.reply_token, messages=messages)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))
