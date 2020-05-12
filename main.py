@@ -72,26 +72,43 @@ def callback():
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    #Lineアカウントのdisplay_nameを取得
+    profile = line_bot_api.get_profile(event.source.user_id)
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
+
+#if mes_form=="〇"で登録、更新、削除に分岐
+
+#「登録」と投稿があった時
+# 出社時間を聞く
+
+
+#
+
+
+#
+
+
+#
 #    line_bot_api.reply_message(
 #        event.reply_token,
 #        TextSendMessage(text=get_response_message(event.message.text)))
 
     #profileを取得
-    profile = line_bot_api.get_profile(event.source.user_id)
+    #profile = line_bot_api.get_profile(event.source.user_id)
 
-    status_msg = profile.status_message
-    if status_msg is None:
-        status_msg = "ステータスメッセージなし"
+    #status_msg = profile.status_message
+    #if status_msg is None:
+    #    status_msg = "ステータスメッセージなし"
     
-    messages = TemplateSendMessage(alt_text="Buttons template",
-                                       template=ButtonsTemplate(
-                                       thumbnail_image_url=profile.picture_url,
-                                       title=profile.display_name,
-                                       text=f"User Id: {profile.user_id[:5]}...\n"
-                                            f"Status message: {status_msg}",
-                                       actions=[MessageAction(label="成功", text="次は？")]))
+    #messages = TemplateSendMessage(alt_text="Buttons template",
+    #                                   template=ButtonsTemplate(
+    #                                   thumbnail_image_url=profile.picture_url,
+    #                                   title=profile.display_name,
+    #                                   text=f"User Id: {profile.user_id[:5]}...\n"
+    #                                        f"Status message: {status_msg}",
+    #                                   actions=[MessageAction(label="成功", text="次は？")]))
 
-    line_bot_api.reply_message(event.reply_token, messages=messages)
+    #line_bot_api.reply_message(event.reply_token, messages=messages)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))
