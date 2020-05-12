@@ -74,16 +74,14 @@ def callback():
 def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
     profile = line_bot_api.get_profile(event.source.user_id)
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん"))
-    
     if event.message.text=="登録":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="登録ですね"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね"))
     elif event.message.text=="更新":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="更新ですね"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="削除ですね"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"削除ですね"))
     else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="登録、更新、削除のどれかにしてください"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録、更新、削除のどれかにしてください"))
 
 
     #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
