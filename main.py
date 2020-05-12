@@ -73,13 +73,13 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
-    profile = line_bot_api.get_profile(event.source.user_id)
-    TextSendMessage(text=profile.display_name+"さん")
-    if event.message == "登録":
+    #profile = line_bot_api.get_profile(event.source.user_id)
+    #TextSendMessage(text=profile.display_name+"さん")
+    if event.message.text=="登録":
         TextSendMessage(text="登録ですね")
-    elif event.message == "更新":
+    elif event.message.text=="更新":
         TextSendMessage(text="更新ですね")
-    elif event.message == "削除":
+    elif event.message.text=="削除":
         TextSendMessage(text="削除ですね")
     else:
         TextSendMessage(text="登録、更新、削除のどれかにしてください")
@@ -88,6 +88,7 @@ def handle_message(event):
     #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
     # #登録、更新、削除に分岐
 
+#オウム返し
 #    line_bot_api.reply_message(
 #        event.reply_token,
 #        TextSendMessage(text=get_response_message(event.message.text)))
