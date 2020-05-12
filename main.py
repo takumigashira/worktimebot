@@ -74,7 +74,7 @@ def callback():
 def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
     profile = line_bot_api.get_profile(event.source.user_id)
-    TextSendMessage(text=profile.display_name+"さん")
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん"))
     # if event.message.text=="登録":
     #     TextSendMessage(text="登録ですね")
     # elif event.message.text=="更新":
