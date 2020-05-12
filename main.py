@@ -72,9 +72,9 @@ def callback():
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=get_response_message(event.message.text)))
+#    line_bot_api.reply_message(
+#        event.reply_token,
+#        TextSendMessage(text=get_response_message(event.message.text)))
 
     #profileを取得
     profile = line_bot_api.get_profile(event.source.user_id)
