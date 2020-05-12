@@ -54,6 +54,14 @@ def get_response_message(mes_form):
     return mes_form
 
 #DBテーブル作成
+#2020-05-12 テスト用のテーブル作成と値挿入
+#updateが無いので、INSERTした12時30分を常に返す状態
+#
+#ToDo：一度testテーブルを消して、本番用テーブルを作成、作成済みなら何もしないだけの関数にする
+#
+#テーブル名 worktime
+#カラム 日付：date型　出社時間：datetime型、退社時間：datetime型、場所：文字列型、
+
 def create_table(res):
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
@@ -66,10 +74,11 @@ def create_table(res):
             return res
 
 #DB登録処理モック
-# def db_add_record():
-#     with get_DBconnection() as conn:
-#         with conn.cursor() as cur:
-#             cur.execute('')
+            # cur.execute('INSERT INTO test (data) VALUES (%s)', [timeStr])
+            # sqlRes = "SELECT * FROM test;"
+            # cur.execute(sqlRes)
+            # res = cur.fetchone()
+            # return res
 
 
 #DB更新処理モック
