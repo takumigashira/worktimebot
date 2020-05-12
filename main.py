@@ -52,6 +52,16 @@ def get_response_message(mes_form):
     #日付以外はそのまま返す
     return mes_form
 
+#登録処理モック
+def addRecord(event):
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(event.message.text))
+
+#更新処理モック
+
+
+#削除処理モック
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -75,7 +85,8 @@ def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
     profile = line_bot_api.get_profile(event.source.user_id)
     if event.message.text=="登録":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね。何時ですか？"))
+        addRecord
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
@@ -86,28 +97,6 @@ def handle_message(event):
 
     #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
     # #登録、更新、削除に分岐
-
-#オウム返し
-#    line_bot_api.reply_message(
-#        event.reply_token,
-#        TextSendMessage(text=get_response_message(event.message.text)))
-
-    #profileを取得
-    #profile = line_bot_api.get_profile(event.source.user_id)
-
-    #status_msg = profile.status_message
-    #if status_msg is None:
-    #    status_msg = "ステータスメッセージなし"
-    
-    #messages = TemplateSendMessage(alt_text="Buttons template",
-    #                                   template=ButtonsTemplate(
-    #                                   thumbnail_image_url=profile.picture_url,
-    #                                   title=profile.display_name,
-    #                                   text=f"User Id: {profile.user_id[:5]}...\n"
-    #                                        f"Status message: {status_msg}",
-    #                                   actions=[MessageAction(label="成功", text="次は？")]))
-
-    #line_bot_api.reply_message(event.reply_token, messages=messages)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))
