@@ -79,6 +79,7 @@ def handle_message(event):
     #profileを取得
     profile = line_bot_api.get_profile(event.source.user_id)
 
+    status_msg = profile.status_message
     if status_msg != "None":
         status_msg = "ステータスメッセージなし"
     
