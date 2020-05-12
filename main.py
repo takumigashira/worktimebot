@@ -114,7 +114,7 @@ def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     if event.message.text=="登録":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね。何時ですか？"))
-        #@handler.add(MessageEvent, message=TextMessage)
+        @handler.add(MessageEvent, message=TextMessage)
         def handle_message(event):
             time_text = event.message.text
             resDB = create_table(time_text)
