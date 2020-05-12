@@ -62,7 +62,7 @@ def create_table(res):
             cur.execute('INSERT INTO test (data) VALUES (%s)', [timeStr])
             sqlRes = "SELECT * FROM test;"
             cur.execute(sqlRes)
-            (res, ) = cur.fetchone()
+            res = cur.fetchone()
             return res
 
 #DB登録処理モック
