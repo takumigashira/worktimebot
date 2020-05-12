@@ -80,7 +80,7 @@ def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
 
     status_msg = profile.status_message
-    if status_msg != "None":
+    if status_msg is None:
         status_msg = "ステータスメッセージなし"
     
     messages = TemplateSendMessage(alt_text="Buttons template",
