@@ -42,7 +42,7 @@ def create_table():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                cur.execute('CREATE TABLE IF NOT EXISTS worktime (id serial PRIMARY KEY, date date, arrival time without time zone, leaving time without time zone, location varchar);')
+                cur.execute('CREATE TABLE IF NOT EXISTS worktime (id serial PRIMARY KEY, date varchar, arrival varchar, leaving varchar, location varchar);')
             except (psycopg2.OperationalError) as e:
                 print(e)
 
@@ -66,7 +66,7 @@ def addDate():
                 tempData = "2020-5-14 14:00:00"
                 tdatetime = datetime.datetime.strptime(tempData, '%Y-%m-%d %H:%M:%S')
                 tdate = datetime.date(tdatetime.year,tdatetime.month,tdatetime.day)
-                cur.execute('INSERT INTO worktime date VALUES %x',(tdate,))
+                cur.execute('INSERT INTO worktime date VALUES '+str(tdate)
             except (psycopg2.OperationalError) as e:
                 print(e)
 
