@@ -99,11 +99,11 @@ def callback():
 
     return 'OK'
 
-@app.route("/createtable", methods=['GET'])
+@app.route("/createtable", methods=['POST'])
 def createTableTest():
     create_table()
 
-@app.route("/deletetable", methods=["GET"])
+@app.route("/deletetable", methods=["POST"])
 def deleteTable():
     delete_table()
 
