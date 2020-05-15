@@ -107,7 +107,7 @@ def callback():
 
     return 'OK'
 
-@app.route("/update", methods=['POST'])
+@app.route("/update", methods=['GET'])
 def updateDB():
     return "Hello!"
 
