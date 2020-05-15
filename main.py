@@ -55,6 +55,24 @@ def delete_table():
                 cur.execute('DROP TABLE ' + tablename)
             except (psycopg2.OperationalError) as e:
                 print(e)
+#
+#日付登録
+#
+#登録されていない日付の場合
+def addDate():
+    with get_DBconnection() as conn:
+        with conn.cursor() as cur:
+            try:
+                tempData = "2020-5-14 14:00:00"
+                tdatetime = datetime.datetime.strptime(tempData, '%Y-%m-%d %H:%M:%S')
+                tdate = datetime.date(tdatetime.month,tdatetime.day)
+                cur.execute('INSERT INTO worktime date VALUES ' + tdate)
+            except (psycopg2.OperationalError) as e:
+                print(e)
+
+#登録済みの日付の場合
+
+
 
 
 @app.route("/callback", methods=['POST'])
@@ -112,6 +130,15 @@ def checkTable():
             cur.execute('SELECT * FROM pg_class')
             res = cur.fetchone()
             return str(res)
+
+@app.route("/adddate", methods=["GET"])
+def insertDate():
+    try:
+        addDate()
+    except InvalidSignatureError:
+        abort(400)
+
+    return "INSERT Test date"
 
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
