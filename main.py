@@ -106,7 +106,7 @@ def createTableTest():
     except InvalidSignatureError:
         abort(400)
     
-    return 'OK'
+    return 'table create SUCCESS'
 
 @app.route("/deletetable", methods=["GET"])
 def deleteTable():
@@ -115,7 +115,7 @@ def deleteTable():
     except InvalidSignatureError:
         abort(400)
 
-    return 'OK'
+    return 'table delete SUCCESS'
 
 @app.route("/update", methods=['GET'])
 def updateDB():
