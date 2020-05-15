@@ -70,7 +70,7 @@ def create_table():
            if result == "CREATE":
                return "CREATE TABLE Success"
            else:
-               return "CREATE TABLE Fails"
+               return "CREATE TABLE Fails:" + result
 
 @app.route("/callback", methods=['POST'])
 def callback():
