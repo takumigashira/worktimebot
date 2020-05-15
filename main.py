@@ -118,7 +118,7 @@ def displayDate():
             sqlRes = "SELECT * FROM test;"
             cur.execute(sqlRes)
             res = cur.fetchone()
-            return res
+            return str(res)
 
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
