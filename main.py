@@ -99,13 +99,23 @@ def callback():
 
     return 'OK'
 
-@app.route("/createtable", methods=['POST'])
+@app.route("/createtable", methods=['GET'])
 def createTableTest():
-    create_table()
+    try:
+        create_table()
+    except InvalidSignatureError:
+        abort(400)
+    
+    return 'OK'
 
-@app.route("/deletetable", methods=["POST"])
+@app.route("/deletetable", methods=["GET"])
 def deleteTable():
-    delete_table()
+    try:
+        delete_table()
+    except InvalidSignatureError:
+        abort(400)
+
+    return 'OK'
 
 @app.route("/update", methods=['GET'])
 def updateDB():
