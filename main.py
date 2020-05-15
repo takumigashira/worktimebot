@@ -65,7 +65,7 @@ def addDate():
             try:
                 tempData = "2020-5-14 14:00:00"
                 tdatetime = datetime.datetime.strptime(tempData, '%Y-%m-%d %H:%M:%S')
-                tdate = datetime.date(tdatetime.month,tdatetime.day)
+                tdate = datetime.date(tdatetime.year,tdatetime.month,tdatetime.day)
                 cur.execute('INSERT INTO worktime date VALUES ' + tdate)
             except (psycopg2.OperationalError) as e:
                 print(e)
