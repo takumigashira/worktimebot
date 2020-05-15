@@ -63,32 +63,14 @@ def get_response_message(mes_form):
 #2020-05-12 テスト用のテーブル作成と値挿入
 #updateが無いので、INSERTした12時30分を常に返す状態
 #
-def create_table(res):
+def create_table():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
-            cur.execute('CREATE TABLE IF NOT EXISTS test (id serial PRIMARY KEY, data varchar);')
-            #ここから下はテスト用のINSERT、SELECT文なので削除する
-            timeStr = res
-            cur.execute('INSERT INTO test (data) VALUES (%s)', [timeStr])
-            sqlRes = "SELECT * FROM test;"
-            cur.execute(sqlRes)
-            res = cur.fetchone()
-            #ここまで
-            return res
-
-#DB登録処理モック
-            # cur.execute('INSERT INTO test (data) VALUES (%s)', [timeStr])
-            # sqlRes = "SELECT * FROM test;"
-            # cur.execute(sqlRes)
-            # res = cur.fetchone()
-            # return res
-
-
-#DB更新処理モック
-
-
-#DB削除処理モック
-
+           result = cur.execute('CREATE TABLE IF NOT EXISTS worktime (id serial PRIMARY KEY, date date, arrival time without time zone, leaving time without time zone, location varchar);')
+           if result == "CREATE":
+               return "CREATE TABLE Success"
+           else:
+               return "CREATE TABLE Fails"
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -106,6 +88,11 @@ def callback():
         abort(400)
 
     return 'OK'
+
+@app.route("/createtable", methods='GET')
+def createTableTest():
+    xx = create_table()
+    return xx
 
 @app.route("/update", methods=['GET'])
 def updateDB():
@@ -130,11 +117,11 @@ def handle_message(event):
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
         
         #登録する時間の投稿を待って、2通目のメッセージのイベントを処理
-        @handler.add(MessageEvent, message=TextMessage)
-        def handle_message(event):
-            time_text = event.message.text
-            resDB = create_table(time_text)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(resDB)+"ですね。"))
+        # @handler.add(MessageEvent, message=TextMessage)
+        # def handle_message(event):
+        #     time_text = event.message.text
+        #     resDB = create_table(time_text)
+        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(resDB)+"ですね。"))
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
