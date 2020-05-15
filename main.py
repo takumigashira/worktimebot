@@ -107,6 +107,10 @@ def callback():
 
     return 'OK'
 
+@app.route("/update", methods=['POST'])
+def updateDB():
+    return "Hello!"
+
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -115,7 +119,8 @@ def handle_message(event):
     if event.message.text=="登録":
         dst_user_id = profile.user_id
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
-        #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録ですね。何時ですか？"))
+        
+        #登録する時間の投稿を待って、2通目のメッセージのイベントを処理
         @handler.add(MessageEvent, message=TextMessage)
         def handle_message(event):
             time_text = event.message.text
