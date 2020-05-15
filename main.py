@@ -107,6 +107,14 @@ def displayDate():
             res = cur.fetchone()
             return str(res)
 
+@app.route("/checktable", methods=['GET'])
+def checkTable():
+    with get_DBconnection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('SELECT * FROM pg_database')
+            res = cur.fetchone()
+            return str(res)
+
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
