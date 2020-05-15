@@ -77,7 +77,6 @@ def delete_table():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                tablename = "worktime"
                 cur.execute('DROP TABLE worktime')
             except (psycopg2.OperationalError) as e:
                 print(e)
@@ -102,8 +101,7 @@ def callback():
 
 @app.route("/createtable", methods=['GET'])
 def createTableTest():
-    a = create_table()
-    return str(a)
+    create_table()
 
 @app.route("/deletetable", methods=["GET"])
 def deleteTable():
