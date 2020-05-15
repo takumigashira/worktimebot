@@ -111,6 +111,15 @@ def callback():
 def updateDB():
     return "Hello!"
 
+@app.route("/display",methods=['GET'])
+def displayDate():
+    with get_DBconnection() as conn:
+        with conn.cursor() as cur:
+            sqlRes = "SELECT * FROM test;"
+            cur.execute(sqlRes)
+            res = cur.fetchone()
+            return res
+
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
