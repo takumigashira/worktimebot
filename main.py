@@ -77,7 +77,8 @@ def delete_table():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                cur.execute('DROP TABLE worktime')
+                tablename = 'worktime'
+                cur.execute('DROP TABLE %s', [tablename])
             except (psycopg2.OperationalError) as e:
                 print(e)
 
