@@ -32,38 +32,12 @@ db_name = os.environ['DB_NAME']
 db_user = os.environ['DB_USER']
 db_pass = os.environ['DB_PASS']
 
-# #DB Resopnse
-# def get_response_message(mes_form):
-#     if mes_form=="日付":
-#         with get_DBconnection() as conn:
-#             with conn.cursor(name="cs") as cur:
-#                 try:
-#                     sqlStr = "SELECT TO_CHAR(CURRENT_DATE, 'yyyy/mm/dd');"
-#                     cur.execute(sqlStr)
-#                     (mes,) = cur.fetchone()
-#                     return mes
-#                 except:
-#                     mes = "exception"
-#                     return mes
-#     #日付以外はそのまま返す
-#     return mes_form
-
 #DB Connection
 def get_DBconnection():
     dsn = "host=" + db_host + " " + "port=" + db_port + " " + "dbname=" + db_name + " " + "user=" + db_user + " " + "password=" + db_pass 
     return psycopg2.connect(dsn)
 
-#ToDo：一度testテーブルを消して、本番用テーブルを作成、作成済みなら何もしないだけの関数にする
-#テーブル名 : worktime
-#カラム : 日付：date型　出社時間：datetime型、退社時間：datetime型、場所：文字列型、
-#戻り値 : Tableの作成成功、もしくは作成済みであることを確認した場合True、それ以外はFalse
-#SQL : CREATE TABLE IF NOT EXISTSでTableが存在しない場合だけ作成、存在する場合は何もしない
-
-#
 #table作成
-#2020-05-12 テスト用のテーブル作成と値挿入
-#updateが無いので、INSERTした12時30分を常に返す状態
-#
 def create_table():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
