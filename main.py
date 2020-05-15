@@ -89,9 +89,10 @@ def callback():
 
     return 'OK'
 
-# @app.route("/createtable", methods='GET')
-# def createTableTest():
-#     create_table()
+@app.route("/createtable", methods=['GET'])
+def createTableTest():
+    a = create_table()
+    return str(a)
 
 @app.route("/update", methods=['GET'])
 def updateDB():
