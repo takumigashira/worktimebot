@@ -37,21 +37,21 @@ def get_DBconnection():
     dsn = "host=" + db_host + " " + "port=" + db_port + " " + "dbname=" + db_name + " " + "user=" + db_user + " " + "password=" + db_pass 
     return psycopg2.connect(dsn)
 
-#DB Resopnse
-def get_response_message(mes_form):
-    if mes_form=="日付":
-        with get_DBconnection() as conn:
-            with conn.cursor(name="cs") as cur:
-                try:
-                    sqlStr = "SELECT TO_CHAR(CURRENT_DATE, 'yyyy/mm/dd');"
-                    cur.execute(sqlStr)
-                    (mes,) = cur.fetchone()
-                    return mes
-                except:
-                    mes = "exception"
-                    return mes
-    #日付以外はそのまま返す
-    return mes_form
+# #DB Resopnse
+# def get_response_message(mes_form):
+#     if mes_form=="日付":
+#         with get_DBconnection() as conn:
+#             with conn.cursor(name="cs") as cur:
+#                 try:
+#                     sqlStr = "SELECT TO_CHAR(CURRENT_DATE, 'yyyy/mm/dd');"
+#                     cur.execute(sqlStr)
+#                     (mes,) = cur.fetchone()
+#                     return mes
+#                 except:
+#                     mes = "exception"
+#                     return mes
+#     #日付以外はそのまま返す
+#     return mes_form
 
 #ToDo：一度testテーブルを消して、本番用テーブルを作成、作成済みなら何もしないだけの関数にする
 #テーブル名 : worktime
@@ -89,10 +89,9 @@ def callback():
 
     return 'OK'
 
-@app.route("/createtable", methods='GET')
-def createTableTest():
-    xx = create_table()
-    return xx
+# @app.route("/createtable", methods='GET')
+# def createTableTest():
+#     create_table()
 
 @app.route("/update", methods=['GET'])
 def updateDB():
