@@ -111,7 +111,7 @@ def displayDate():
 def checkTable():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
-            cur.execute('SELECT * FROM pg_database')
+            cur.execute('SELECT * FROM pg_class')
             res = cur.fetchone()
             return str(res)
 
