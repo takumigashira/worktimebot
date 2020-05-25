@@ -149,7 +149,7 @@ def insertDate():
 
 @app.route("/", methods=["GET"])
 def index():
-    return "./add.html"
+    return render_template('add.html', name="takumi")
 
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
