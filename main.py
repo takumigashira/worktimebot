@@ -147,6 +147,10 @@ def insertDate():
 
     return s
 
+@app.route("/", methods=["GET"])
+def index():
+    return "./add.html"
+
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -154,7 +158,7 @@ def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     if event.message.text=="登録":
         dst_user_id = profile.user_id
-        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて日付と時間を登録して下さい。" + "https://worktimebot.herokuapp.com/add.html"))
+        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて日付と時間を登録して下さい。" + "https://worktimebot.herokuapp.com/"))
 
         #登録する時間の投稿を待って、2通目のメッセージのイベントを処理
         # @handler.add(MessageEvent, message=TextMessage)
