@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort,render_template
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -93,6 +93,7 @@ def callback():
 
     return 'OK'
 
+#DB Table作成
 @app.route("/createtable", methods=['GET'])
 def createTableTest():
     try:
@@ -102,6 +103,7 @@ def createTableTest():
     
     return 'table create SUCCESS'
 
+#DB Table削除
 @app.route("/deletetable", methods=["GET"])
 def deleteTable():
     try:
@@ -111,10 +113,12 @@ def deleteTable():
 
     return 'table delete SUCCESS'
 
+#DB更新
 @app.route("/update", methods=['GET'])
 def updateDB():
     return "Hello!"
 
+#データ一覧表示
 @app.route("/display",methods=['GET'])
 def displayDate():
     with get_DBconnection() as conn:
@@ -124,6 +128,7 @@ def displayDate():
             res = cur.fetchone()
             return str(res)
 
+#Table一覧表示
 @app.route("/checktable", methods=['GET'])
 def checkTable():
     with get_DBconnection() as conn:
@@ -132,6 +137,7 @@ def checkTable():
             res = cur.fetchone()
             return str(res)
 
+#データ追加
 @app.route("/adddate", methods=["GET"])
 def insertDate():
     try:
@@ -147,9 +153,10 @@ def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
     profile = line_bot_api.get_profile(event.source.user_id)
     if event.message.text=="登録":
-        dst_user_id = profile.user_id
-        line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
-        
+        #dst_user_id = profile.user_id
+        #line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
+        return render_template('add.html', name="たくみ")
+
         #登録する時間の投稿を待って、2通目のメッセージのイベントを処理
         # @handler.add(MessageEvent, message=TextMessage)
         # def handle_message(event):
