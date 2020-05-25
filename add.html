@@ -7,7 +7,13 @@
         <p>{{ name }}+さん、以下のフォームに日付と時間を入れてください</p>
         <form action="https://worktimebot.herokuapp.com/adddate" method="POST">
             <p>
-                <input type="text" name="addDate" size="20">
+                <input type="text" name="date" size="20" placeholder="日付(mm-dd)">
+            </p>
+            <p>
+                <input type="text" name="start_time" size="5" placeholder="出社時刻(hh:mm)">
+            </p>
+            <p>
+                <input type="text" name="end_time" size="5" placeholder="退社時刻(hh:mm)">
             </p>
         </form>
     </body>
