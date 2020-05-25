@@ -153,9 +153,8 @@ def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
     profile = line_bot_api.get_profile(event.source.user_id)
     if event.message.text=="登録":
-        #dst_user_id = profile.user_id
-        #line_bot_api.push_message(dst_user_id, TextSendMessage(text="ID:"+dst_user_id +"の"+ profile.display_name+"さん。"+"登録ですね。何時ですか？"))
-        return render_template('add.html', name="たくみ")
+        dst_user_id = profile.user_id
+        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて日付と時間を登録して下さい。" + "https://worktimebot.herokuapp.com/templates/add.html"))
 
         #登録する時間の投稿を待って、2通目のメッセージのイベントを処理
         # @handler.add(MessageEvent, message=TextMessage)
