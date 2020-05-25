@@ -63,11 +63,12 @@ def addDate():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                tempData = "2020-5-14 14:00:00"
-                tdatetime = datetime.datetime.strptime(tempData, '%Y-%m-%d %H:%M:%S')
-                tdate = datetime.date(tdatetime.year,tdatetime.month,tdatetime.day)
-                #cur.execute('INSERT INTO worktime date VALUES '+str(tdate))
-                return 'INSERT INTO worktime date VALUES ' + str(tdate)
+                # tempData = "2020-5-14 14:00:00"
+                # tdatetime = datetime.datetime.strptime(tempData, '%Y-%m-%d %H:%M:%S')
+                # tdate = datetime.date(tdatetime.year,tdatetime.month,tdatetime.day)
+                # #cur.execute('INSERT INTO worktime date VALUES '+str(tdate))
+                # return 'INSERT INTO worktime date VALUES ' + str(tdate)
+                return request.form["date"]
             except (psycopg2.OperationalError) as e:
                 print(e)
 
@@ -138,7 +139,7 @@ def checkTable():
             return str(res)
 
 #データ追加
-@app.route("/adddate", methods=["GET"])
+@app.route("/adddate", methods=["POST"])
 def insertDate():
     try:
         s = addDate()
@@ -147,6 +148,7 @@ def insertDate():
 
     return s
 
+#登録用Form表示
 @app.route("/", methods=["GET"])
 def index():
     return render_template('add.html', name="takumi")
