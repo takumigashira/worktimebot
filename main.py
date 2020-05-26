@@ -1,4 +1,4 @@
-from flask import Flask, request, abort,render_template
+from flask import Flask, request, abort,render_template, redirect
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -67,9 +67,9 @@ def addDate():
                 e = request.form["end_time"]
                 l = request.form["location"]
                 #resualt = d + s + e + l
-                resualt = cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
+                cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
                 conn.commit()
-                return resualt
+                #return resualt
 
             #except (psycopg2.OperationalError) as e:
             #    print(e)
@@ -139,8 +139,8 @@ def checkTable():
 @app.route("/adddate", methods=["POST"])
 def insertDate():
     try:
-       r = addDate()
-       return r
+       addDate()
+       return redirect("https://worktimebot.herokuapp.com/")
     except InvalidSignatureError:
         abort(400)
 
