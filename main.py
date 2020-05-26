@@ -123,7 +123,7 @@ def displayDate():
         with conn.cursor() as cur:
             sqlRes = "SELECT * FROM worktime;"
             cur.execute(sqlRes)
-            res = cur.fetchone()
+            res = cur.fetchall()
             return str(res)
 
 #Table一覧表示
