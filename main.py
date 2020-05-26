@@ -150,7 +150,7 @@ def deleteTable():
 def displayData():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
-            sqlRes = "SELECT * FROM worktime;"
+            sqlRes = "SELECT * FROM worktime ORDER BY date ASC;"
             tmpStr = []
             cur.execute(sqlRes)
             for row in cur:
