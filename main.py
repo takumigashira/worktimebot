@@ -68,13 +68,9 @@ def addDate():
                 l = request.form["location"]
                 #resualt = d + s + e + l
                 cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
+                conn.commit()
             except (psycopg2.OperationalError) as e:
                 print(e)
-
-#登録済みの日付の場合
-
-
-
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -144,6 +140,7 @@ def insertDate():
         addDate()
     except InvalidSignatureError:
         abort(400)
+
 
 #登録用Form表示
 @app.route("/", methods=["GET"])
