@@ -153,6 +153,7 @@ def insertData():
     except InvalidSignatureError:
         abort(400)
 
+#データ更新
 @app.route("/updatedata", methods=["POST"])
 def upData():
     try:
