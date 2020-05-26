@@ -69,7 +69,7 @@ def addDate():
                 #resualt = d + s + e + l
                 resualt = cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
                 conn.commit()
-                print(resualt)
+                return resualt
 
             #except (psycopg2.OperationalError) as e:
             #    print(e)
