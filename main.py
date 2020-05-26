@@ -16,9 +16,12 @@ import datetime
 # Flask
 app = Flask(__name__)
 
-
+##########################
+#DB設定、接続処理
+##########################
 #環境変数からLINE Access Tokenを設定
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
+
 #環境変数からLINE Channel Secretを設定
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
@@ -37,6 +40,9 @@ def get_DBconnection():
     dsn = "host=" + db_host + " " + "port=" + db_port + " " + "dbname=" + db_name + " " + "user=" + db_user + " " + "password=" + db_pass 
     return psycopg2.connect(dsn)
 
+##########################
+#テーブル操作
+##########################
 #table作成
 def create_table():
     with get_DBconnection() as conn:
@@ -55,6 +61,10 @@ def delete_table():
                 cur.execute('DROP TABLE ' + tablename)
             except (psycopg2.OperationalError) as e:
                 print(e)
+
+##########################
+#レコード操作
+##########################
 #稼働登録
 def addData():
     with get_DBconnection() as conn:
@@ -94,6 +104,10 @@ def updateData():
             except(psycopg2.OperationalError) as e:
                 print(e)
 
+##########################
+#ルーティング
+##########################
+#テスト用コールバック
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -111,7 +125,7 @@ def callback():
 
     return 'OK'
 
-#DB Table作成
+#テーブル作成
 @app.route("/createtable", methods=['GET'])
 def createTableTest():
     try:
@@ -121,7 +135,7 @@ def createTableTest():
     
     return 'table create SUCCESS'
 
-#DB Table削除
+#テーブル削除
 @app.route("/deletetable", methods=["GET"])
 def deleteTable():
     try:
@@ -131,7 +145,7 @@ def deleteTable():
 
     return 'table delete SUCCESS'
 
-#データ一覧表示
+#レコード一覧表示
 @app.route("/display",methods=['GET'])
 def displayData():
     with get_DBconnection() as conn:
@@ -144,7 +158,7 @@ def displayData():
 
             return render_template('display.html', len = len(tmpStr), tmp = tmpStr)
 
-#データ追加
+#レコード追加
 @app.route("/adddata", methods=["POST"])
 def insertData():
     try:
@@ -153,7 +167,7 @@ def insertData():
     except InvalidSignatureError:
         abort(400)
 
-#データ更新
+#レコード更新
 @app.route("/updatedata", methods=["POST"])
 def upData():
     try:
@@ -162,7 +176,7 @@ def upData():
     except InvalidSignatureError:
         abort(400)
 
-#データ削除
+#レコード削除
 @app.route("/deletedata", methods=["POST"])
 def deldata():
     try:
@@ -171,7 +185,9 @@ def deldata():
     except InvalidSignatureError:
         abort(400)
 
-
+##########################
+#各種Form表示
+##########################
 #登録用Form表示
 @app.route("/add", methods=["GET"])
 def addFormDisplay():
@@ -187,7 +203,9 @@ def updateFormDisplay():
 def deleteFormDisplay():
     return render_template('delete.html', name="takumi")
 
-# MessageEvent
+##########################
+#LINE MessageEvent
+##########################
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #Lineアカウントのdisplay_nameを取得
