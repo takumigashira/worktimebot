@@ -66,8 +66,8 @@ def addDate():
                 s = request.form["start_time"]
                 e = request.form["end_time"]
                 l = request.form["location"]
-                resualt = d + s + e + l
-                return resualt
+                #resualt = d + s + e + l
+                cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
             except (psycopg2.OperationalError) as e:
                 print(e)
 
@@ -141,11 +141,9 @@ def checkTable():
 @app.route("/adddate", methods=["POST"])
 def insertDate():
     try:
-        s = addDate()
+        addDate()
     except InvalidSignatureError:
         abort(400)
-
-    return s
 
 #登録用Form表示
 @app.route("/", methods=["GET"])
