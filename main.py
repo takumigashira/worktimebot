@@ -132,14 +132,12 @@ def displayData():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             sqlRes = "SELECT * FROM worktime;"
-            tmpStr = ""
+            tmpStr = []
             cur.execute(sqlRes)
             for row in cur:
-                tmpStr = tmpStr + "\r\n" + str(row)
-                #\r\naaa
-                #\r\naaa\r\nbbb
-                #\r\naaa\r\nbbb\r\nccc
-            return tmpStr
+                tmpStr.append(row)
+                
+            return tmpStr[1]
 
 #データ追加
 @app.route("/adddata", methods=["POST"])
