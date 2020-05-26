@@ -141,7 +141,7 @@ def checkTable():
 def insertData():
     try:
        addData()
-       return redirect("https://worktimebot.herokuapp.com/")
+       return redirect("https://worktimebot.herokuapp.com/add")
     except InvalidSignatureError:
         abort(400)
 
@@ -150,7 +150,7 @@ def insertData():
 def deldata():
     try:
        deleteData()
-       return redirect("https://worktimebot.herokuapp.com/")
+       return redirect("https://worktimebot.herokuapp.com/delete")
     except InvalidSignatureError:
         abort(400)
 
