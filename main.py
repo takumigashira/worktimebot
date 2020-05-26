@@ -117,14 +117,9 @@ def deleteTable():
 
     return 'table delete SUCCESS'
 
-#DB更新
-@app.route("/update", methods=['GET'])
-def updateDB():
-    return "Hello!"
-
 #データ一覧表示
 @app.route("/display",methods=['GET'])
-def displayDate():
+def displayData():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             sqlRes = "SELECT * FROM worktime;"
@@ -143,7 +138,7 @@ def checkTable():
 
 #データ追加
 @app.route("/adddata", methods=["POST"])
-def insertDate():
+def insertData():
     try:
        addData()
        return redirect("https://worktimebot.herokuapp.com/")
@@ -152,7 +147,7 @@ def insertDate():
 
 #データ削除
 @app.route("/deletedata", methods=["POST"])
-def deleteDate():
+def deldata():
     try:
        deleteData()
        return redirect("https://worktimebot.herokuapp.com/")
