@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>稼働一覧表示</title>
+    </head>
+    <body>
+        <ol>
+            { % for i in range(0, len) % }
+               <li>{{ tmp[i] }}</li>
+            { % endfor %}
+        </ol>
+    </body>
+</html>

@@ -137,7 +137,7 @@ def displayData():
             for row in cur:
                 tmpStr.append(row)
 
-            return str(tmpStr[1])
+            return render_template('display.html', len = len(tmpStr), tmp = tmpStr)
 
 #データ追加
 @app.route("/adddata", methods=["POST"])
