@@ -80,6 +80,15 @@ def deleteData():
             except (psycopg2.OperationalError) as e:
                 print(e)
 
+#稼働更新
+def updateData():
+    with get_DBconnection() as conn:
+        with conn.cursor() as cur:
+            try:
+                return "OK"
+            except(psycopg2.OperationalError) as e:
+                print(e)
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -123,18 +132,10 @@ def displayData():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             sqlRes = "SELECT * FROM worktime;"
+            tmpStr = ""
             cur.execute(sqlRes)
-            res = cur.fetchall()
-            return str(res)
-
-#Table一覧表示
-@app.route("/checktable", methods=['GET'])
-def checkTable():
-    with get_DBconnection() as conn:
-        with conn.cursor() as cur:
-            cur.execute('SELECT * FROM pg_class')
-            res = cur.fetchone()
-            return str(res)
+            for row in cur:
+                tmpStr = tmpStr + "\n" +str(row)
 
 #データ追加
 @app.route("/adddata", methods=["POST"])
