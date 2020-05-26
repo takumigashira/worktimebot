@@ -135,7 +135,10 @@ def displayData():
             tmpStr = ""
             cur.execute(sqlRes)
             for row in cur:
-                tmpStr = tmpStr + "\n" +str(row)
+                tmpStr = tmpStr + "\r\n" + str(row)
+                #\r\naaa
+                #\r\naaa\r\nbbb
+                #\r\naaa\r\nbbb\r\nccc
             return tmpStr
 
 #データ追加
