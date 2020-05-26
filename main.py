@@ -152,7 +152,7 @@ def insertDate():
 
 #データ削除
 @app.route("/deletedata", methods=["POST"])
-def insertDate():
+def deleteDate():
     try:
        deleteData()
        return redirect("https://worktimebot.herokuapp.com/")
@@ -185,10 +185,6 @@ def handle_message(event):
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて削除操作をして下さい。" + "https://worktimebot.herokuapp.com/delete"))
     else:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録、更新、削除のどれかにしてください"))
-
-
-    #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=profile.display_name))
-    # #登録、更新、削除に分岐
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))
