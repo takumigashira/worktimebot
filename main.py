@@ -136,8 +136,8 @@ def displayData():
             cur.execute(sqlRes)
             for row in cur:
                 tmpStr.append(row)
-                
-            return tmpStr[1]
+
+            return str(tmpStr[1])
 
 #データ追加
 @app.route("/adddata", methods=["POST"])
