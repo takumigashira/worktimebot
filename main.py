@@ -121,7 +121,7 @@ def updateDB():
 def displayDate():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
-            sqlRes = "SELECT * FROM test;"
+            sqlRes = "SELECT * FROM worktime;"
             cur.execute(sqlRes)
             res = cur.fetchone()
             return str(res)
