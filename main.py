@@ -55,24 +55,30 @@ def delete_table():
                 cur.execute('DROP TABLE ' + tablename)
             except (psycopg2.OperationalError) as e:
                 print(e)
-#
-#日付登録
-#
-def addDate():
+#稼働登録
+def addData():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
-            #try:
+            try:
                 d = request.form["date"]
                 s = request.form["start_time"]
                 e = request.form["end_time"]
                 l = request.form["location"]
-                #resualt = d + s + e + l
                 cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
                 conn.commit()
-                #return resualt
+            except (psycopg2.OperationalError) as e:
+                print(e)
 
-            #except (psycopg2.OperationalError) as e:
-            #    print(e)
+#稼働削除
+def deleteData():
+    with get_DBconnection() as conn:
+        with conn.cursor() as cur:
+            try:
+                i = request.form["deleteDateID"]
+                cur.execute('DELETE FROM worktime WHERE serial=(%s)', (i,))
+                conn.commit()
+            except (psycopg2.OperationalError) as e:
+                print(e)
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -136,19 +142,33 @@ def checkTable():
             return str(res)
 
 #データ追加
-@app.route("/adddate", methods=["POST"])
+@app.route("/adddata", methods=["POST"])
 def insertDate():
     try:
-       addDate()
+       addData()
+       return redirect("https://worktimebot.herokuapp.com/")
+    except InvalidSignatureError:
+        abort(400)
+
+#データ削除
+@app.route("/deletedata", methods=["POST"])
+def insertDate():
+    try:
+       deleteData()
        return redirect("https://worktimebot.herokuapp.com/")
     except InvalidSignatureError:
         abort(400)
 
 
 #登録用Form表示
-@app.route("/", methods=["GET"])
-def index():
+@app.route("/add", methods=["GET"])
+def addFormDisplay():
     return render_template('add.html', name="takumi")
+
+#削除用Form表示
+@app.route("/delete", methods=["GET"])
+def deleteFormDisplay():
+    return render_template('delete.html', name="takumi")
 
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
@@ -157,18 +177,12 @@ def handle_message(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     if event.message.text=="登録":
         dst_user_id = profile.user_id
-        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて日付と時間を登録して下さい。" + "https://worktimebot.herokuapp.com/"))
-
-        #登録する時間の投稿を待って、2通目のメッセージのイベントを処理
-        # @handler.add(MessageEvent, message=TextMessage)
-        # def handle_message(event):
-        #     time_text = event.message.text
-        #     resDB = create_table(time_text)
-        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(resDB)+"ですね。"))
+        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて日付と時間を登録して下さい。" + "https://worktimebot.herokuapp.com/add"))
     elif event.message.text=="更新":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
     elif event.message.text=="削除":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"削除ですね"))
+        dst_user_id = profile.user_id
+        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて削除操作をして下さい。" + "https://worktimebot.herokuapp.com/delete"))
     else:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録、更新、削除のどれかにしてください"))
 

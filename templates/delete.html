@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>稼働削除</title>
+    </head>
+    <body>
+        <p>{{ name }}さん、以下のフォームに削除したいIDを入れて下さい</p>
+        <form action="https://worktimebot.herokuapp.com/deletedata" method="POST">
+            <p>
+                <input type="number" name="date" size="20" placeholder="削除するID(数字)">
+            </p>
+            <p>
+                <input type="submit" value="add">
+            </p>
+        </form>
+    </body>
+</html>
