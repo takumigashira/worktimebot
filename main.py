@@ -75,7 +75,7 @@ def deleteData():
         with conn.cursor() as cur:
             try:
                 i = request.form["deleteDateID"]
-                cur.execute('DELETE FROM worktime WHERE serial=(%s)', (i,))
+                cur.execute('DELETE FROM worktime WHERE id=(%s)', (i,))
                 conn.commit()
             except (psycopg2.OperationalError) as e:
                 print(e)
