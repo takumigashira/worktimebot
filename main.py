@@ -154,7 +154,7 @@ def insertData():
         abort(400)
 
 @app.route("/updatedata", methods=["POST"])
-def updateData():
+def upData():
     try:
        updateData()
        return redirect("https://worktimebot.herokuapp.com/update")
