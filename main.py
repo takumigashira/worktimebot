@@ -58,16 +58,10 @@ def delete_table():
 #
 #日付登録
 #
-#登録されていない日付の場合
 def addDate():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                # tempData = "2020-5-14 14:00:00"
-                # tdatetime = datetime.datetime.strptime(tempData, '%Y-%m-%d %H:%M:%S')
-                # tdate = datetime.date(tdatetime.year,tdatetime.month,tdatetime.day)
-                # #cur.execute('INSERT INTO worktime date VALUES '+str(tdate))
-                # return 'INSERT INTO worktime date VALUES ' + str(tdate)
                 return request.form["date"]
             except (psycopg2.OperationalError) as e:
                 print(e)
