@@ -139,7 +139,8 @@ def checkTable():
 @app.route("/adddate", methods=["POST"])
 def insertDate():
     try:
-        addDate()
+       r = addDate()
+       return r
     except InvalidSignatureError:
         abort(400)
 
