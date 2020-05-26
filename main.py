@@ -90,7 +90,7 @@ def updateData():
                 us = request.form["update_start_time"]
                 ue = request.form["update_end_time"]
                 ul = request.form["update_location"]
-                cur.execute('UPDATE worktime SET date = (%s) arrival = (%s) leaving = (%s) location = (%s) WHERE id = (%s)',(ud,us,ue,ul,ui))
+                cur.execute('UPDATE worktime SET date = (%s), arrival = (%s), leaving = (%s), location = (%s), WHERE id = (%s)',(ud,us,ue,ul,ui))
             except(psycopg2.OperationalError) as e:
                 print(e)
 
