@@ -220,6 +220,9 @@ def handle_message(event):
     elif event.message.text=="削除":
         dst_user_id = profile.user_id
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて削除操作をして下さい。" + "https://worktimebot.herokuapp.com/delete"))
+    elif event.message.text=="確認":
+        dst_user_id = profile.user_id
+        line_bot_api.push_message(dst_user_id, TextSendMessage(text="ここで稼働データを確認できます。" + "https://worktimebot.herokuapp.com/display"))
     else:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"登録、更新、削除のどれかにしてください"))
 
