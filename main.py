@@ -62,7 +62,12 @@ def addDate():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                return request.form["date"]
+                d = request.form["date"]
+                s = request.form["start_time"]
+                e = request.form["end_time"]
+                l = request.form["location"]
+                resualt = d + s + e + l
+                return resualt
             except (psycopg2.OperationalError) as e:
                 print(e)
 
