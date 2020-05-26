@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>稼働入力</title>
+    </head>
+    <body>
+        <p>{{ name }}さん、更新したいIDを入れ、日付、時間、場所を全て入れ直してください</p>
+        <form action="https://worktimebot.herokuapp.com/updateData" method="POST">
+            <P>
+                <input type="number" name="update_id" size="20" placeholder="更新したいID">
+            </P>
+            <p>
+                <input type="date" name="update_date" size="20" placeholder="日付(mm-dd)">
+            </p>
+            <p>
+                <input type="time" name="update_start_time" size="20" placeholder="出社時刻(hh:mm)">
+            </p>
+            <p>
+                <input type="time" name="update_end_time" size="20" placeholder="退社時刻(hh:mm)">
+            </p>
+            <p>
+                <input type="text" name="update_location" size="20" placeholder="作業場所">
+            </p>
+            <p>
+                <input type="submit" value="add">
+            </p>
+        </form>
+    </body>
+</html>

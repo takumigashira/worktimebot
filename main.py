@@ -85,7 +85,12 @@ def updateData():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
             try:
-                return "OK"
+                ui = request.form["update_id"]
+                ud = request.form["update_date"]
+                us = request.form["update_start_time"]
+                ue = request.form["update_end_time"]
+                ul = request.form["update_location"]
+                cur.execute('UPDATE worktime SET data = (%s) arrival = (%s) leaving = (%s) location = (%s) WHERE id = (%s)',(ud,us,ue,ul,ui))
             except(psycopg2.OperationalError) as e:
                 print(e)
 
@@ -148,6 +153,14 @@ def insertData():
     except InvalidSignatureError:
         abort(400)
 
+@app.route("/updatedata", methods=["POST"])
+def updateData():
+    try:
+       updateData()
+       return redirect("https://worktimebot.herokuapp.com/update")
+    except InvalidSignatureError:
+        abort(400)
+
 #データ削除
 @app.route("/deletedata", methods=["POST"])
 def deldata():
@@ -163,6 +176,11 @@ def deldata():
 def addFormDisplay():
     return render_template('add.html', name="takumi")
 
+#更新用Form表示
+@app.route("/update", methods=["GET"])
+def updateFormDisplay():
+    return render_template('update.html', name="takumi")
+
 #削除用Form表示
 @app.route("/delete", methods=["GET"])
 def deleteFormDisplay():
@@ -177,7 +195,9 @@ def handle_message(event):
         dst_user_id = profile.user_id
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて日付と時間を登録して下さい。" + "https://worktimebot.herokuapp.com/add"))
     elif event.message.text=="更新":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=profile.display_name+"さん。"+"更新ですね"))
+        dst_user_id = profile.user_id
+        line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて削除操作をして下さい。" + "https://worktimebot.herokuapp.com/update"))
+
     elif event.message.text=="削除":
         dst_user_id = profile.user_id
         line_bot_api.push_message(dst_user_id, TextSendMessage(text="こちらを開いて削除操作をして下さい。" + "https://worktimebot.herokuapp.com/delete"))
