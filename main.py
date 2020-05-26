@@ -61,16 +61,18 @@ def delete_table():
 def addDate():
     with get_DBconnection() as conn:
         with conn.cursor() as cur:
-            try:
+            #try:
                 d = request.form["date"]
                 s = request.form["start_time"]
                 e = request.form["end_time"]
                 l = request.form["location"]
                 #resualt = d + s + e + l
-                cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
+                resualt = cur.execute('INSERT INTO worktime (date, arrival, leaving, location) VALUES (%s, %s, %s, %s)', (d,s,e,l))
                 conn.commit()
-            except (psycopg2.OperationalError) as e:
-                print(e)
+                print(resualt)
+
+            #except (psycopg2.OperationalError) as e:
+            #    print(e)
 
 @app.route("/callback", methods=['POST'])
 def callback():
